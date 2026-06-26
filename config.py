@@ -19,11 +19,11 @@ CACHE_TTL_SEC    = 3600
 
 # ── Calendario de operativo ────────────────────────────────────────────────────
 # TODO: confirmar fechas exactas de jornadas con el PO.
-INICIO_OPERATIVO = "2026-06-13"
+INICIO_OPERATIVO = "2026-06-26"
 
 # ── Umbrales de calidad (flags) ────────────────────────────────────────────────
 # TODO CONFIRMAR con stakeholder antes de activar en producción.
-DUR_MIN_MIN = 8
+DUR_MIN_MIN = 5
 DUR_MAX_MIN = 40
 
 UMBRAL_STRAIGHTLINING_BLOQUE7 = 7
