@@ -245,9 +245,12 @@ def _transform(records: list[dict]) -> pd.DataFrame:
         df["municipio"] = df["municipio_texto"]
     if "municipio" in df.columns:
         df["municipio"] = df["municipio"].astype(str).str.strip().str.upper()
-    # encuestador_nombre (Zacatlán) o nombre_encuestador (Atlixco)
-        _col_enc = "encuestador_nombre" if "encuestador_nombre" in df.columns else "nombre_encuestador"
-        df["encuestador_nombre"] = df[_col_enc].apply(normalizar_nombre)
+    # ── lat/lon — Bubble los entrega como string; convertir a float ──────────
+    for _col in ("latitud", "longitud"):
+        if _col in df.columns:
+            df[_col] = pd.to_numeric(df[_col], errors="coerce")
+
+    df["encuestador_nombre"] = df["encuestador_nombre"].apply(normalizar_nombre)
 
     def _enc_id(row):
         if row["fecha"] is not None and row["fecha"] >= INICIO_LOGIN_BUBBLE:
