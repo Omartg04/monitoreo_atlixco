@@ -382,7 +382,7 @@ ROLES = {
         "secciones": list(METAS_POR_SECCION.keys()),
     },
    
-    "d&ai": {
+    "dai": {
         "rol":       "estatal",
         "zonas":     list(ZONA_NOMBRES.keys()),
         "secciones": list(METAS_POR_SECCION.keys()),
