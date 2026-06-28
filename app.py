@@ -302,18 +302,16 @@ with st.sidebar:
 
 
 # ── Aplicar filtros ────────────────────────────────────────────────────────────
-df = df_raw.copy()
+df_base = df_raw.copy()
+if fecha_sel and "fecha" in df_base.columns:
+    df_base = df_base[df_base["fecha"].isin(fecha_sel)]
 
-if zona_sel != 0:
+df = df_base.copy()
+if zona_sel != 0 and "zona" in df.columns:
     df = df[df["zona"] == zona_sel]
-
-if sec_sel != "Todas":
+if sec_sel != "Todas" and "seccion_electoral" in df.columns:
     df = df[df["seccion_electoral"] == sec_sel]
-
-if fecha_sel and "fecha" in df.columns:
-    df = df[df["fecha"].isin(fecha_sel)]
-
-if enc_sel != "Todos":
+if enc_sel != "Todos" and "encuestador_nombre" in df.columns:
     df = df[df["encuestador_nombre"] == enc_sel]
 
 
