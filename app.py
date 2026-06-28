@@ -606,13 +606,13 @@ with tab0:
 # TAB 1 — AVANCE VS META
 # ══════════════════════════════════════════════════════════════════════════════
 with tab1:
-    if df_raw.empty:
+    if df_base.empty:
         st.info("Sin datos — verifica la conexión a Bubble (config.BUBBLE_ENDPOINT).")
     else:
         # Meta y avance de la vista actual
         if zona_sel == 0 and sec_sel == "Todas":
             meta_vista = META_GLOBAL
-            df_kpi     = df_raw
+            df_kpi     = df_base
         elif sec_sel != "Todas":
             meta_vista = METAS_POR_SECCION[sec_sel]["meta_encuestas"]
             df_kpi     = df
@@ -644,7 +644,7 @@ with tab1:
         # ── Avance por zona (nueva sección) ────────────────────────────────────
         if zona_sel == 0 and sec_sel == "Todas":
             st.markdown('<div class="sec-title">Avance por zona</div>', unsafe_allow_html=True)
-            av_zona = kpis.avance_por_zona(df_raw)
+            av_zona = kpis.avance_por_zona(df_base)
             tbl_zona = av_zona[["zona", "zona_nombre", "n_secciones", "meta", "avance", "pct", "semaforo"]].copy()
             tbl_zona.columns = ["Zona", "Nombre", "Secciones", "Meta", "Avance", "% Avance", "Semáforo"]
             st.dataframe(
@@ -738,15 +738,13 @@ with tab2:
 
     if GEOJSON is None:
         st.warning(f"No se encontró {GEOJSON_SECCIONES}. Colócalo junto a app.py.")
-    elif df_raw.empty:
+    elif df_base.empty:
         st.info("Sin datos disponibles todavía.")
     else:
         # Para el mapa: respeta zona y fecha pero NO el filtro de sección
-        df_mapa = df_raw.copy()
+        df_mapa = df_base.copy()
         if zona_sel != 0:
             df_mapa = df_mapa[df_mapa["zona"] == zona_sel]
-        if fecha_sel and "fecha" in df_mapa.columns:
-            df_mapa = df_mapa[df_mapa["fecha"].isin(fecha_sel)]
 
         av_sec_all = kpis.avance_por_seccion(df_mapa)
         av_lookup  = av_sec_all.set_index("seccion").to_dict(orient="index")
@@ -1035,7 +1033,7 @@ with tab3:
         # ── Cobertura geográfica desbalanceada ──────────────────────────────────
         st.markdown('<div class="sec-title">Cobertura geográfica desbalanceada (por sección)</div>',
                     unsafe_allow_html=True)
-        cob      = flags.resumen_cobertura_desbalanceada(df_raw)
+        cob      = flags.resumen_cobertura_desbalanceada(df_base)
         cob_flag = cob[cob["flag_cobertura"]]
         if cob_flag.empty:
             st.success("Sin secciones con cobertura desbalanceada detectada.")
