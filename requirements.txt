@@ -1,8 +1,8 @@
 streamlit
-streamlit-authenticator
 streamlit-folium
 folium
 pandas
 plotly
 shapely
 requests
+streamlit-authenticator==0.3.3
